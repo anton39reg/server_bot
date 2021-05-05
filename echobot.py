@@ -30,6 +30,7 @@ def help_command(update: Update, _: CallbackContext) -> None:
 
 def echo(update: Update, _: CallbackContext) -> None:
     """Echo the user message."""
+    # TODO: Add comminucation with flask server
     update.message.reply_text(update.message.text)
 
 

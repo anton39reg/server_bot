@@ -7,6 +7,7 @@ name = "pypi"
 Flask = "*"
 python-telegram-bot = "*"
 waitress = "*"
+requests = "*"
 
 [dev-packages]
 

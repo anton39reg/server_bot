@@ -15,4 +15,4 @@ RUN pipenv install
 
 COPY . .
 
-CMD ["pipenv", "run", "python", "echobot.py"]
+ENTRYPOINT ["pipenv", "run", "python", "echobot.py"]
