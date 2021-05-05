@@ -8,6 +8,9 @@ RUN apt update && \
 RUN pip3 install pipenv
 
 WORKDIR /app
-COPY . .
+COPY Pipfile .
+COPY Pipfile.lock .
 
-RUN pipenv install -r requirements.txt
+RUN pipenv install
+
+COPY . .
