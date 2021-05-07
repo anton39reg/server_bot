@@ -1,4 +1,6 @@
 import logging
+import json
+import requests
 
 from settings import TOKEN
 from telegram import Update, ForceReply
@@ -9,7 +11,7 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
 )
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('echobot')
 
 
 # Define a few command handlers. These usually take the two arguments update and
@@ -31,7 +33,10 @@ def help_command(update: Update, _: CallbackContext) -> None:
 def echo(update: Update, _: CallbackContext) -> None:
     """Echo the user message."""
     # TODO: Add comminucation with flask server
-    update.message.reply_text(update.message.text)
+    r = requests.post(f'http://0.0.0.0:5000/{TOKEN}', json={'message': update.message.text})
+    content = json.loads(r.content)
+    logger.info(content['json'])
+    update.message.reply_text(content['json']['message'])
 
 
 def main() -> None:
