@@ -39,6 +39,10 @@ def echo_photo(update: Update, _: CallbackContext) -> None:
     """Echo the user message."""
     update.message.reply_photo(update.message.photo[-1].file_id)
 
+def wrong_data(update: Update, _: CallbackContext) -> None:
+    """Echo the user message."""
+    update.message.reply_text('Sorry, we work only with photo or text')
+
 @app.route(f'/{TOKEN}', methods=['POST'])
 def echo():
     logger.info(request.get_json())
@@ -52,6 +56,7 @@ def set_handlers():
 
     dispatcher.add_handler(MessageHandler(Filters.text, echo_text))    
     dispatcher.add_handler(MessageHandler(Filters.photo, echo_photo))    
+    dispatcher.add_handler(MessageHandler(~(Filters.photo | Filters.text), wrong_data))    
 
 if __name__ == '__main__':
     set_handlers()
