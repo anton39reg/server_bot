@@ -8,6 +8,7 @@ Flask = "*"
 python-telegram-bot = "*"
 waitress = "*"
 requests = "*"
+pyngrok = "*"
 
 [dev-packages]
 
