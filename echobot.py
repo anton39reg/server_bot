@@ -5,7 +5,6 @@ import requests
 
 from settings import TOKEN
 from telegram import Update, ForceReply
-from telegram import Bot
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 
 # Enable logging
