@@ -29,7 +29,6 @@ app = Flask('echo')
 chat_to_photos = {}
 
 def start(update: Update, _: CallbackContext) -> None:
-    """Send a message when the command /start is issued."""
     user = update.effective_user
     update.message.reply_markdown_v2(
         fr'Hi {user.mention_markdown_v2()}\!',
@@ -37,15 +36,12 @@ def start(update: Update, _: CallbackContext) -> None:
     )
 
 def help_command(update: Update, _: CallbackContext) -> None:
-    """Send a message when the command /help is issued."""
     update.message.reply_text('Help!')
 
 def echo_text(update: Update, _: CallbackContext) -> None:
-    """Echo the user message."""
     update.message.reply_text(update.message.text)
 
 def echo_photo(update: Update, _: CallbackContext) -> None:
-    """Echo the user message."""
     keyboard = [
         [InlineKeyboardButton("Yes!", callback_data='1')],
         [InlineKeyboardButton("No!", callback_data='2')],
@@ -60,8 +56,6 @@ def echo_photo(update: Update, _: CallbackContext) -> None:
 def button(update: Update, _: CallbackContext) -> None:
     query = update.callback_query
 
-    # CallbackQueries need to be answered, even if no notification to the user is needed
-    # Some clients may have trouble otherwise. See https://core.telegram.org/bots/api#callbackquery
     query.answer()
 
     if query.data == '1' and chat_to_photos[query.message.chat.id]['send'] is False:
@@ -73,14 +67,12 @@ def button(update: Update, _: CallbackContext) -> None:
     chat_to_photos[query.message.chat.id]['send'] = True
 
 def wrong_data(update: Update, _: CallbackContext) -> None:
-    """Echo the user message."""
     update.message.reply_text('Sorry, we work only with photo or text')
 
 @app.route(f'/{TOKEN}', methods=['POST'])
 def echo():
     logger.info(request.get_json())
     update = Update.de_json(request.json, bot)
-    # dispatcher.process_update(update)
     update_queue.put(update)
     return {'ok':True}
 
@@ -100,4 +92,4 @@ if __name__ == '__main__':
     thread.start()
 
     bot.setWebhook(f'{sys.argv[1]}/{TOKEN}')
-    serve(app, host='0.0.0.0', port='5000')
+    serve(app, host='0.0.0.0', port='1234')
